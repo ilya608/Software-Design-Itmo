@@ -18,26 +18,26 @@ public class ProductsService {
 
     public void insert(String name, long price) throws RuntimeException {
         ProductDto newProductDto = new ProductDto(name, price);
-        ProductsDao.insert(newProductDto);
+        productsDao.insert(newProductDto);
     }
 
     public List<Product> getAllProducts() throws RuntimeException {
-        return ProductsDao.getProductsBySql("SElECT * FROM PRODUCT");
+        return productsDao.getProductsBySql("SElECT * FROM PRODUCT");
     }
 
     public Product getMaxPriceProduct() throws RuntimeException {
-        return ProductsDao.getProductsBySql("SELECT * FROM PRODUCT ORDER BY PRICE DESC LIMIT 1").get(0);
+        return productsDao.getProductsBySql("SELECT * FROM PRODUCT ORDER BY PRICE DESC LIMIT 1").get(0);
     }
 
     public Product getMinPriceProduct() throws RuntimeException {
-        return ProductsDao.getProductsBySql("SELECT * FROM PRODUCT ORDER BY PRICE LIMIT 1").get(0);
+        return productsDao.getProductsBySql("SELECT * FROM PRODUCT ORDER BY PRICE LIMIT 1").get(0);
     }
 
     public long getProductsCount() throws RuntimeException {
-        return ProductsDao.aggregateFunctionBySql("SELECT COUNT(*) FROM PRODUCT");
+        return productsDao.aggregateFunctionBySql("SELECT COUNT(*) FROM PRODUCT");
     }
 
     public long getProductsSum() throws RuntimeException {
-        return ProductsDao.aggregateFunctionBySql("SELECT SUM(price) FROM PRODUCT");
+        return productsDao.aggregateFunctionBySql("SELECT SUM(price) FROM PRODUCT");
     }
 }

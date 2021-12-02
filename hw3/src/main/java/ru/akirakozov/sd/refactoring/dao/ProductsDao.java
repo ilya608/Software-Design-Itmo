@@ -3,7 +3,6 @@ package ru.akirakozov.sd.refactoring.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +14,13 @@ import ru.akirakozov.sd.refactoring.pojo.Product;
  * @author ilyakirpichev
  */
 public class ProductsDao {
-    public static void insert(ProductDto product) throws RuntimeException {
+    public void insert(ProductDto product) throws RuntimeException {
         String sql = "INSERT INTO PRODUCT " +
                 "(NAME, PRICE) VALUES (\"" + product.name + "\"," + product.price + ")";
         executeSqlUpdate(sql);
     }
 
-    public static List<Product> getProductsBySql(String sql) throws RuntimeException {
+    public List<Product> getProductsBySql(String sql) throws RuntimeException {
         final List<Product> products = new ArrayList<>();
         try {
             try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
@@ -41,7 +40,7 @@ public class ProductsDao {
         return products;
     }
 
-    public static long aggregateFunctionBySql(String sql) throws RuntimeException {
+    public long aggregateFunctionBySql(String sql) throws RuntimeException {
         final long result;
         try {
             try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
@@ -62,7 +61,7 @@ public class ProductsDao {
         }
     }
 
-    private static void executeSqlUpdate(String sql) throws RuntimeException {
+    private void executeSqlUpdate(String sql) throws RuntimeException {
         try {
             try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
                 Statement stmt = c.createStatement();
