@@ -21,8 +21,7 @@ public class ProductsDao {
         executeSqlUpdate(sql);
     }
 
-    public static List<Product> getAllProducts() throws RuntimeException {
-        String sql = "SELECT * FROM PRODUCT";
+    public static List<Product> getProductsBySql(String sql) throws RuntimeException {
         ResultSet sqlResult = executeSqlQuery(sql);
         final List<Product> products = new ArrayList<>();
         try {

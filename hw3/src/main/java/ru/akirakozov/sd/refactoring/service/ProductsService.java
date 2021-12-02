@@ -22,6 +22,10 @@ public class ProductsService {
     }
 
     public List<Product> getAllProducts() throws RuntimeException {
-        return ProductsDao.getAllProducts();
+        return ProductsDao.getProductsBySql("SElECT * FROM PRODUCT");
+    }
+
+    public List<Product> executeSqlFunction(String sql) throws RuntimeException {
+        return ProductsDao.getProductsBySql(sql);
     }
 }
