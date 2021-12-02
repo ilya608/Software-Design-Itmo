@@ -21,15 +21,26 @@ public class ProductsDao {
         executeSqlUpdate(sql);
     }
 
-    public static List<Product> getAllProducts() throws RuntimeException, SQLException {
+    public static List<Product> getAllProducts() throws RuntimeException {
         String sql = "SELECT * FROM PRODUCT";
         ResultSet sqlResult = executeSqlQuery(sql);
         final List<Product> products = new ArrayList<>();
-        while (sqlResult.next()) {
-            String name = sqlResult.getString("name");
-            int price = sqlResult.getInt("price");
-            products.add(new Product(name, price));
+        try {
+            try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
+                Statement stmt = c.createStatement();
+                ResultSet rs = stmt.executeQuery(sql);
+                while (rs.next()) {
+                    String name = rs.getString("name");
+                    int price = rs.getInt("price");
+                    products.add(new Product(name, price));
+                }
+                sqlResult.close();
+                stmt.close();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+
         return products;
     }
 
