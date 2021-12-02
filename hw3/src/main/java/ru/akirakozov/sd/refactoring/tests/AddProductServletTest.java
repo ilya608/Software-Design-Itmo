@@ -1,4 +1,4 @@
-package main.java.ru.akirakozov.sd.refactoring.tests;
+package ru.akirakozov.sd.refactoring.tests;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -14,11 +14,11 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.akirakozov.sd.refactoring.dao.ProductsDao;
+import ru.akirakozov.sd.refactoring.service.ProductsService;
 import ru.akirakozov.sd.refactoring.servlet.AddProductServlet;
 import ru.akirakozov.sd.refactoring.servlet.GetProductsServlet;
 import ru.akirakozov.sd.refactoring.servlet.QueryServlet;
@@ -155,9 +155,12 @@ class AddProductServletTest {
         context.setContextPath("/");
         server.setHandler(context);
 
-        context.addServlet(new ServletHolder(new AddProductServlet()), "/add-product");
-        context.addServlet(new ServletHolder(new GetProductsServlet()), "/get-products");
-        context.addServlet(new ServletHolder(new QueryServlet()), "/query");
+        ProductsDao productsDao = new ProductsDao();
+        ProductsService productsService = new ProductsService(productsDao);
+
+        context.addServlet(new ServletHolder(new AddProductServlet(productsService)), "/add-product");
+        context.addServlet(new ServletHolder(new GetProductsServlet(productsService)), "/get-products");
+        context.addServlet(new ServletHolder(new QueryServlet(productsService)), "/query");
 
         server.start();
     }

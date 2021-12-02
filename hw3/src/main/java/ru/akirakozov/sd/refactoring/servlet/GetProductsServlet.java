@@ -9,10 +9,18 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import ru.akirakozov.sd.refactoring.service.ProductsService;
+
 /**
  * @author akirakozov
  */
 public class GetProductsServlet extends HttpServlet {
+    private final ProductsService productsService;
+
+    public GetProductsServlet(ProductsService productsService) {
+        super();
+        this.productsService = productsService;
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

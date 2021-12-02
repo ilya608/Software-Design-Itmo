@@ -3,6 +3,8 @@ package ru.akirakozov.sd.refactoring;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import ru.akirakozov.sd.refactoring.dao.ProductsDao;
+import ru.akirakozov.sd.refactoring.service.ProductsService;
 import ru.akirakozov.sd.refactoring.servlet.AddProductServlet;
 import ru.akirakozov.sd.refactoring.servlet.GetProductsServlet;
 import ru.akirakozov.sd.refactoring.servlet.QueryServlet;
@@ -33,9 +35,12 @@ public class Main {
         context.setContextPath("/");
         server.setHandler(context);
 
-        context.addServlet(new ServletHolder(new AddProductServlet()), "/add-product");
-        context.addServlet(new ServletHolder(new GetProductsServlet()),"/get-products");
-        context.addServlet(new ServletHolder(new QueryServlet()),"/query");
+        ProductsDao productsDao = new ProductsDao();
+        ProductsService productsService = new ProductsService(productsDao);
+
+        context.addServlet(new ServletHolder(new AddProductServlet(productsService)), "/add-product");
+        context.addServlet(new ServletHolder(new GetProductsServlet(productsService)),"/get-products");
+        context.addServlet(new ServletHolder(new QueryServlet(productsService)),"/query");
 
         server.start();
         server.join();
