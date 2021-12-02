@@ -13,7 +13,7 @@ public class ProductsService {
         this.productsDao = dao;
     }
 
-    public void insert(String name, int price) {
+    public void insert(String name, long price) {
         ProductDto newProductDto = new ProductDto(name, price);
         ProductsDao.insert(newProductDto);
     }

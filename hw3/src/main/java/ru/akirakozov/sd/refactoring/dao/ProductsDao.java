@@ -18,7 +18,7 @@ public class ProductsDao {
     public static void insert(ProductDto product) throws RuntimeException {
         String sql = "INSERT INTO PRODUCT " +
                 "(NAME, PRICE) VALUES (\"" + product.name + "\"," + product.price + ")";
-        executeSqlQuery(sql);
+        executeSqlUpdate(sql);
     }
 
     public static List<Product> getAllProducts() throws RuntimeException, SQLException {

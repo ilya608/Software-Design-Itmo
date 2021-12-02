@@ -5,10 +5,10 @@ package ru.akirakozov.sd.refactoring.dto;
  */
 public class ProductDto {
     public final String name;
-    public final int price;
+    public final long price;
 
 
-    public ProductDto(String name, int price) {
+    public ProductDto(String name, long price) {
         this.name = name;
         this.price = price;
     }
