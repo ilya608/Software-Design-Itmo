@@ -22,7 +22,6 @@ public class ProductsDao {
     }
 
     public static List<Product> getProductsBySql(String sql) throws RuntimeException {
-        ResultSet sqlResult = executeSqlQuery(sql);
         final List<Product> products = new ArrayList<>();
         try {
             try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
@@ -33,21 +32,28 @@ public class ProductsDao {
                     int price = rs.getInt("price");
                     products.add(new Product(name, price));
                 }
-                sqlResult.close();
+                rs.close();
                 stmt.close();
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
         return products;
     }
 
-    private static ResultSet executeSqlQuery(String sql) throws RuntimeException {
+    public static long aggregateFunctionBySql(String sql) throws RuntimeException {
+        final long result;
         try {
             try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
                 Statement stmt = c.createStatement();
-                ResultSet result = stmt.executeQuery(sql);
+                ResultSet rs = stmt.executeQuery(sql);
+
+                if (rs.next()) {
+                    result = rs.getLong(1);
+                } else {
+                    throw new RuntimeException("No result in aggregate function");
+                }
+                rs.close();
                 stmt.close();
                 return result;
             }

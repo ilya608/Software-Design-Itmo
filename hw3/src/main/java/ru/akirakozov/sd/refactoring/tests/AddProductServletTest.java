@@ -74,6 +74,51 @@ class AddProductServletTest {
     }
 
     @Test
+    public void querySum_whenDatabaseFilled_thenExpectCorrectCount() throws Exception {
+        clearDatabase();
+        String name1 = "iphone 6";
+        String name2 = "samsung";
+        String name3 = "xiaomi";
+
+        addProduct(name1, 100);
+        addProduct(name2, 50);
+        addProduct(name3, 70);
+
+        HttpResponse<String> res = getQuery("count");
+        Assertions.assertTrue(res.body().contains("3"));
+    }
+
+    @Test
+    public void querySum_whenDatabaseFilled_thenExpectCorrectMin() throws Exception {
+        clearDatabase();
+        String name1 = "iphone 6";
+        String name2 = "samsung";
+        String name3 = "xiaomi";
+
+        addProduct(name1, 100);
+        addProduct(name2, 50);
+        addProduct(name3, 70);
+
+        HttpResponse<String> res = getQuery("min");
+        Assertions.assertTrue(res.body().contains("50"));
+    }
+
+    @Test
+    public void querySum_whenDatabaseFilled_thenExpectCorrectMax() throws Exception {
+        clearDatabase();
+        String name1 = "iphone 6";
+        String name2 = "samsung";
+        String name3 = "xiaomi";
+
+        addProduct(name1, 100);
+        addProduct(name2, 50);
+        addProduct(name3, 70);
+
+        HttpResponse<String> res = getQuery("max");
+        Assertions.assertTrue(res.body().contains("100"));
+    }
+
+    @Test
     public void addOneProductTest() throws IOException, URISyntaxException, InterruptedException {
         HttpResponse<String> res = addProduct("iphone", 1200);
         Assertions.assertEquals(200, res.statusCode());

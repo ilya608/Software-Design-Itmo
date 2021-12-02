@@ -25,7 +25,19 @@ public class ProductsService {
         return ProductsDao.getProductsBySql("SElECT * FROM PRODUCT");
     }
 
-    public List<Product> executeSqlFunction(String sql) throws RuntimeException {
-        return ProductsDao.getProductsBySql(sql);
+    public Product getMaxPriceProduct() throws RuntimeException {
+        return ProductsDao.getProductsBySql("SELECT * FROM PRODUCT ORDER BY PRICE DESC LIMIT 1").get(0);
+    }
+
+    public Product getMinPriceProduct() throws RuntimeException {
+        return ProductsDao.getProductsBySql("SELECT * FROM PRODUCT ORDER BY PRICE LIMIT 1").get(0);
+    }
+
+    public long getProductsCount() throws RuntimeException {
+        return ProductsDao.aggregateFunctionBySql("SELECT COUNT(*) FROM PRODUCT");
+    }
+
+    public long getProductsSum() throws RuntimeException {
+        return ProductsDao.aggregateFunctionBySql("SELECT SUM(price) FROM PRODUCT");
     }
 }
