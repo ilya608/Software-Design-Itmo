@@ -1,0 +1,70 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<head>
+    <title>Add question</title>
+</head>
+<body>
+
+<h3>Select products</h3>
+<form method="GET" action="/filter-products">
+    <select th:name="filter">
+        <option value="all">all</option>
+        <option value="max">max</option>
+        <option value="min">min</option>
+    </select>
+    <input type="submit" value="filter">
+</form>
+
+<!--<table>-->
+<!--    <th:block th:each="taskList : ${tasks}">-->
+<!--        <tr>-->
+<!--            <td th:text="${taskList.getId()}">-->
+
+<!--        </tr>-->
+<!--    </th:block>-->
+<!--</table>-->
+
+<div th:each="taskList : ${tasks}">
+    <label>Лист: </label>
+    <label th:text="${taskList.position}">)</label>
+    <label th:text="${taskList.name}"></label>
+
+    <form th:action="@{/delete-tasklist/} + ${taskList.position}" method="post" th:id=${taskList.position}>
+        <button name="foo" value="delete">Удалить</button>
+    </form>
+    <div th:each="task : ${taskList.tasks}">
+        <label th:text="${task.name}"></label>
+        <label th:if="${task.isDone}">✓</label>
+
+        <form th:action="@{/set-done/} + ${taskList.position} + @{/} + ${task.position}" method="post">
+            <button name="foo" value="delete">Сделано</button>
+        </form>
+    </div>
+</div>
+
+<h3>Add new task list</h3>
+<form th:object="${taskList}" method="POST" action="/add-tasklist">
+    <table>
+        <tr>
+            <td><label>Name:</label></td>
+            <td><input type="text" th:field="*{name}"/></td>
+        </tr>
+    </table>
+    <input type="submit" value="add">
+</form>
+
+<h3>Add new task</h3>
+<form method="POST" action="/add-task">
+    <table>
+        <tr>
+            <td><label>Позиция:</label></td>
+            <td><input type="text" name="position"/></td>
+            <td><label>Название</label></td>
+            <td><input type="text" name="name"/></td>
+        </tr>
+    </table>
+    <input type="submit" value="add">
+</form>
+
+</body>
+</html>
