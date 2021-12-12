@@ -1,5 +1,6 @@
 package ru.itmo.kirpichev.controllers;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -30,7 +31,7 @@ public class TaskController {
     }
 
     @RequestMapping(value = "/get-tasks", method = RequestMethod.GET)
-    public String getTasks(ModelMap map) {
+    public String getTasks(ModelMap map) throws SQLException {
         prepareModelMap(map, tasksDao.getLists());
         return "index";
     }

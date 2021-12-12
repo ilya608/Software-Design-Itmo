@@ -25,10 +25,15 @@ public class TasksListDto {
         this.tasks = tasks;
     }
 
-    class TaskDto {
+    public static class TaskDto {
         @JsonProperty("name")
         public String name;
         @JsonProperty("is_done")
         public boolean isDone;
+
+        public TaskDto(String name, boolean isDone) {
+            this.name = name;
+            this.isDone = isDone;
+        }
     }
 }

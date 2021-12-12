@@ -45,12 +45,16 @@ public class TasksJdbcDao extends JdbcDaoSupport implements TasksDao {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        String sql = String.format("insert into taskslist(NAME, TASKS) values(\"%s\", \"%s\")", name, "");
+        String sql = String.format("insert into taskslist(NAME, TASKS) values(\"%s\", \"{[]}\")", name);
         executeUpdate(sql);
     }
 
     @Override
-    public List<TaskList> getLists() {
+    public List<TaskList> getLists() throws SQLException {
+
+
+
+
         return null;
     }
 
@@ -71,15 +75,30 @@ public class TasksJdbcDao extends JdbcDaoSupport implements TasksDao {
 
     private int executeUpdate(String sql) throws RuntimeException {
         try {
-            return Objects.requireNonNull(getDataSource()).getConnection().createStatement().executeUpdate(sql);
+            var conn = Objects.requireNonNull(getDataSource()).getConnection();
+            var statement = conn.createStatement();
+            int res = statement.executeUpdate(sql);
+            conn.close();
+            statement.close();
+            return res;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private ResultSet executeQuery(String sql) throws RuntimeException {
+    private List<TaskList> executeQuery(String sql) throws RuntimeException {
         try {
-            return Objects.requireNonNull(getDataSource()).getConnection().createStatement().executeQuery(sql);
+            var conn = Objects.requireNonNull(getDataSource()).getConnection();
+            var statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            List<TaskList> result = new ArrayList<>();
+            while (rs.next()) {
+                String name = rs.getString("name");
+                String text = rs.getString("text");
+            }
+            conn.close();
+            statement.close();
+            return null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -87,15 +106,8 @@ public class TasksJdbcDao extends JdbcDaoSupport implements TasksDao {
 
     public List<TaskList> getProductsBySql(String sql) throws RuntimeException {
         final List<TaskList> lists = new ArrayList<>();
-        ResultSet rs = executeQuery("select * from taskslist");
-        try {
-            while (rs.next()) {
-                String name = rs.getString("name");
-                String price = rs.getString("tasks");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        executeQuery("select * from taskslist");
+
         return lists;
 
     }
