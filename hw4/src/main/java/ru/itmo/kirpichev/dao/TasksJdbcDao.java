@@ -1,10 +1,7 @@
 package ru.itmo.kirpichev.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -32,11 +29,6 @@ public class TasksJdbcDao extends JdbcDaoSupport implements TasksDao {
     }
 
     @Override
-    public void addTask(int listId, Task task) {
-//        String sql = "insert into product("
-    }
-
-    @Override
     public void addEmptyTaskList(String name) throws RuntimeException {
         TasksListDto dto = new TasksListDto(name, new ArrayList<>());
         final String tasks;
@@ -47,30 +39,6 @@ public class TasksJdbcDao extends JdbcDaoSupport implements TasksDao {
         }
         String sql = String.format("insert into taskslist(NAME, TASKS) values(\"%s\", \"{[]}\")", name);
         executeUpdate(sql);
-    }
-
-    @Override
-    public List<TaskList> getLists() throws SQLException {
-
-
-
-
-        return null;
-    }
-
-    @Override
-    public TaskList getTasksByListId(int id) {
-        return null;
-    }
-
-    @Override
-    public boolean deleteTaskListById(int id) {
-        return false;
-    }
-
-    @Override
-    public void setTaskDone(int listId, int taskId) {
-
     }
 
     private int executeUpdate(String sql) throws RuntimeException {
@@ -114,5 +82,31 @@ public class TasksJdbcDao extends JdbcDaoSupport implements TasksDao {
 
     private List<TasksListDto> getProductsByRequest(String sql) {
         return getJdbcTemplate().query(sql, new BeanPropertyRowMapper(TasksListDto.class));
+    }
+
+    @Override
+    public TaskList getTasksByListId(int id) {
+        return null;
+    }
+
+    @Override
+    public boolean deleteTaskListById(int id) {
+        return false;
+    }
+
+    @Override
+    public void setTaskDone(int listId, int taskId) {
+
+    }
+
+    @Override
+    public void addTask(int listId, Task task) {
+        String sql = "insert into product(";
+        executeUpdate(sql);
+    }
+
+    @Override
+    public List<TaskList> getLists() throws SQLException {
+        return null;
     }
 }
