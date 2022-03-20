@@ -17,7 +17,7 @@ import ru.itmo.kirpichev.vk.dto.HashtagDto;
 class VkApiResponseParserTest {
     @Test
     public void test() throws IOException {
-        String inputJson = Files.readString(Path.of("src/ru/itmo/kirpichev/hw2/tests/files/result.json"));
+        String inputJson = Files.readString(Path.of("src/ru/itmo/kirpichev/hw2/main.dto.tests/files/result.json"));
         VkApiResponseParser parser = new VkApiResponseParser();
         HashtagDto parsed = parser.parseResponse(inputJson);
         Assertions.assertEquals(parsed.response.items.stream().map(x -> x.date).sorted().collect(Collectors.toList()),

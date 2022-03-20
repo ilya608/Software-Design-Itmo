@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class EventStatisticImpl implements EventStatistic {
+public class    EventStatisticImpl implements EventStatistic {
     private final double MINUTES_IN_HOUR = 60;
 
     private final Clock clock;
