@@ -17,12 +17,12 @@ public class MongoReactiveDao {
         this.products = products;
     }
 
-    public Observable<Boolean> registerUser(User user) {
-        return insertToCollection(user.toDocument(), users);
-    }
-
     public Observable<Boolean> addProduct(Product product) {
         return insertToCollection(product.toDocument(), products);
+    }
+
+    public Observable<Boolean> registerUser(User user) {
+        return insertToCollection(user.toDocument(), users);
     }
 
     public Observable<Product> getProductsForUser(long userId) {
